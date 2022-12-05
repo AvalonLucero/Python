@@ -3,10 +3,10 @@ from tkinter import *
 
 import mysql.connector
 
-db = mysql.connector.connect(user='root', password='password',
+db = mysql.connector.connect(user='root', password='flYing2024$',
                              host='localhost',
                              database='ArtGallery')
-cursor = db.cursor()
+my_conn = db.cursor()
 
 window = tk.Tk()
 
@@ -56,19 +56,14 @@ def enter_info():
     entry_06.place(x=575, y=380)
 
     def add_entry():
-        print("Entered customer information")
-        print(entry_1.get())
-        print(entry_02.get())
-        print(entry_03.get())
-        print(entry_04.get())
-        print(entry_05.get())
-        print(entry_06.get())
         sql = 'INSERT INTO Customer(`Customer_name`, `art_title_desired`, `phone_number`, `address`, `amount`,' \
               '`email_address`) '
         ' VALUES (%s, %s, %s, %s, %s, %s)'
         insert = (entry_1.get(), entry_02.get(), entry_03.get(), entry_04.get(), entry_05.get(), entry_06.get())
-        cursor.execute(sql, insert)
-        data_enter.quit()
+        my_conn.execute(sql, insert)
+        data_enter.destroy()
+        if my_conn:
+            my_conn.close()
 
     Button(data_enter, text='Submit', width=20, bg='brown', fg='black', command=add_entry).place(x=575, y=480)
 
