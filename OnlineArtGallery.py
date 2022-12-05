@@ -10,6 +10,7 @@ my_conn = db.cursor()
 
 window = tk.Tk()
 
+# Main or Home Page
 window.geometry("650x250")
 window.attributes('-fullscreen', True)
 window.title("Main")
@@ -18,43 +19,47 @@ window.configure(bg='#006eff')
 main = tk.Label(window, text="Online Art Gallery", bg="#006eff", fg="white", font=("Times", 70, "bold"))
 main.pack()
 
+# Search Entry for Art
 search1 = tk.Entry(window, bd=5, width=30)
 search1.pack()
 search2 = tk.Button(window, width=10, height=2, text="Search", fg='black')
 search2.pack()
 
+# If the sign-in button is pushed this is activated
+
 
 def enter_info():
     data_enter = tk.Toplevel(window)
     data_enter.title("Data Entry")
+    data_enter.configure(bg='purple')
     data_enter.geometry("100x100")
-    label_0 = Label(data_enter, text="Customer Entry Form", width=20, font=("bold", 50))
+    label_0 = Label(data_enter, text="Customer Entry Form", width=20, font=("bold", 50), bg='purple')
     label_0.pack()
-    label_1 = Label(data_enter, text="Full Name", width=40, font=("bold", 20))
+    label_1 = Label(data_enter, text="Full Name", width=40, font=("bold", 20), bg='purple')
     label_1.place(x=250, y=130)
     entry_1 = tk.Entry(data_enter)
     entry_1.place(x=575, y=130)
-    label_2 = Label(data_enter, text="Art Title", width=40, font=("bold", 20))
+    label_2 = Label(data_enter, text="Art Title", width=40, font=("bold", 20), bg='purple')
     label_2.place(x=250, y=180)
     entry_02 = tk.Entry(data_enter)
     entry_02.place(x=575, y=180)
-    label_3 = Label(data_enter, text="Phone Number", width=40, font=("bold", 20))
+    label_3 = Label(data_enter, text="Phone Number", width=40, font=("bold", 20), bg='purple')
     label_3.place(x=245, y=230)
     entry_03 = tk.Entry(data_enter)
     entry_03.place(x=575, y=230)
-    label_4 = Label(data_enter, text="Address", width=40, font=("bold", 20))
+    label_4 = Label(data_enter, text="Address", width=40, font=("bold", 20), bg='purple')
     label_4.place(x=250, y=280)
     entry_04 = tk.Entry(data_enter)
     entry_04.place(x=575, y=280)
-    label_5 = Label(data_enter, text="Amount", width=40, font=("bold", 20))
+    label_5 = Label(data_enter, text="Amount", width=40, font=("bold", 20), bg='purple')
     label_5.place(x=250, y=330)
     entry_05 = tk.Entry(data_enter)
     entry_05.place(x=575, y=330)
-    label_6 = Label(data_enter, text="Email Address", width=40, font=("bold", 20))
+    label_6 = Label(data_enter, text="Email Address", width=40, font=("bold", 20), bg='purple')
     label_6.place(x=245, y=380)
     entry_06 = tk.Entry(data_enter)
     entry_06.place(x=575, y=380)
-
+    # The submit button action
     def add_entry():
         sql = 'INSERT INTO Customer(`Customer_name`, `art_title_desired`, `phone_number`, `address`, `amount`,' \
               '`email_address`) '
@@ -75,6 +80,7 @@ purchaseButton = tk.Button(
     font=("Monaco", 7),
     command=enter_info)
 purchaseButton.pack()
+# Purchase button
 
 
 def open_artwork():
@@ -83,6 +89,7 @@ def open_artwork():
     artwork_window.title("Artwork")
     artwork_label = tk.Label(artwork_window, text="Artwork", bg="red", fg='black', font=("Times", 70, "bold"))
     artwork_label.pack()
+# If the artwork button is pressed
 
 
 artworkButton = tk.Button(
@@ -92,6 +99,7 @@ artworkButton = tk.Button(
     bg='#34e8eb', fg='black',
     font=("Monaco", 25),
     command=open_artwork)
+# Artwork Button
 
 
 def open_artist():
@@ -100,6 +108,7 @@ def open_artist():
     artist_window.title("Artist")
     artist_label = tk.Label(artist_window, text="Artist", bg="green", fg="black", font=("Times", 70, "bold"))
     artist_label.pack()
+# If the artist button is pressed
 
 
 artistButton = tk.Button(
@@ -108,6 +117,7 @@ artistButton = tk.Button(
     bg="#34e8eb", fg="black",
     font=("Monaco", 25),
     command=open_artist)
+# Artist Button
 
 
 def open_genre():
@@ -116,6 +126,7 @@ def open_genre():
     genre_window.title("Genre")
     genre_label = tk.Label(genre_window, text="Genre", bg="yellow", fg="black", font=("Times", 70, "bold"))
     genre_label.pack()
+# If the genre button is pressed
 
 
 genreButton = tk.Button(
@@ -124,6 +135,7 @@ genreButton = tk.Button(
     bg="#34e8eb", fg="black",
     font=("Monaco", 25),
     command=open_genre)
+# Genre Button
 
 
 def open_place():
@@ -132,6 +144,7 @@ def open_place():
     place_window.title("Place")
     place_label = tk.Label(place_window, text="Place", bg="orange", fg='black', font=("Times", 70, "bold"))
     place_label.pack()
+# If the place button is pressed
 
 
 placeButton = tk.Button(
@@ -140,7 +153,9 @@ placeButton = tk.Button(
     bg="#34e8eb", fg="black",
     font=("Monaco", 25),
     command=open_place)
+# Place Button
 
+# Placements of the four buttons
 artworkButton.place(x=375, y=300)
 artistButton.place(x=375, y=600)
 genreButton.place(x=775, y=300)
