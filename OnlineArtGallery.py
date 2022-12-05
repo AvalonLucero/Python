@@ -19,13 +19,18 @@ window.configure(bg='#006eff')
 main = tk.Label(window, text="Online Art Gallery", bg="#006eff", fg="white", font=("Times", 70, "bold"))
 main.pack()
 
+
+def primary_search():
+    val = search1.get()
+    sql_query = "SELECT * FROM Artists WHERE Artist_Name=%s"
+    my_conn.execute(sql_query, val)
+
+
 # Search Entry for Art
 search1 = tk.Entry(window, bd=5, width=30)
 search1.pack()
-search2 = tk.Button(window, width=10, height=2, text="Search", fg='black')
+search2 = tk.Button(window, width=10, height=2, text="Search Artist", fg='black', command=primary_search)
 search2.pack()
-
-# If the sign-in button is pushed this is activated
 
 
 def enter_info():
