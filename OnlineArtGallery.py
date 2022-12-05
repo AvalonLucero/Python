@@ -1,6 +1,13 @@
 import tkinter as tk
 from tkinter import *
 
+import mysql.connector
+
+db = mysql.connector.connect(user='root', password='password',
+                             host='localhost',
+                             database='ArtGallery')
+cursor = db.cursor()
+
 window = tk.Tk()
 
 window.geometry("650x250")
@@ -21,33 +28,49 @@ def enter_info():
     data_enter = tk.Toplevel(window)
     data_enter.title("Data Entry")
     data_enter.geometry("100x100")
-    labl_0 = Label(data_enter, text="Customer Entry Form", width=20, font=("bold", 50))
-    labl_0.pack()
-    labl_1 = Label(data_enter, text="Full Name", width=40, font=("bold", 20))
-    labl_1.place(x=250,y=130)
+    label_0 = Label(data_enter, text="Customer Entry Form", width=20, font=("bold", 50))
+    label_0.pack()
+    label_1 = Label(data_enter, text="Full Name", width=40, font=("bold", 20))
+    label_1.place(x=250, y=130)
     entry_1 = tk.Entry(data_enter)
     entry_1.place(x=575, y=130)
-    labl_2 = Label(data_enter, text="Art Title", width=40, font=("bold", 20))
-    labl_2.place(x=250, y=180)
+    label_2 = Label(data_enter, text="Art Title", width=40, font=("bold", 20))
+    label_2.place(x=250, y=180)
     entry_02 = tk.Entry(data_enter)
     entry_02.place(x=575, y=180)
-    labl_3 = Label(data_enter, text="Phone Number", width=40, font=("bold", 20))
-    labl_3.place(x=245, y=230)
+    label_3 = Label(data_enter, text="Phone Number", width=40, font=("bold", 20))
+    label_3.place(x=245, y=230)
     entry_03 = tk.Entry(data_enter)
     entry_03.place(x=575, y=230)
-    labl_4 = Label(data_enter, text="Address", width=40, font=("bold", 20))
-    labl_4.place(x=250, y=280)
+    label_4 = Label(data_enter, text="Address", width=40, font=("bold", 20))
+    label_4.place(x=250, y=280)
     entry_04 = tk.Entry(data_enter)
     entry_04.place(x=575, y=280)
-    labl_5 = Label(data_enter, text="Amount", width=40, font=("bold", 20))
-    labl_5.place(x=250, y=330)
+    label_5 = Label(data_enter, text="Amount", width=40, font=("bold", 20))
+    label_5.place(x=250, y=330)
     entry_05 = tk.Entry(data_enter)
     entry_05.place(x=575, y=330)
-    labl_6 = Label(data_enter, text="Email Address", width=40, font=("bold", 20))
-    labl_6.place(x=245, y=380)
+    label_6 = Label(data_enter, text="Email Address", width=40, font=("bold", 20))
+    label_6.place(x=245, y=380)
     entry_06 = tk.Entry(data_enter)
     entry_06.place(x=575, y=380)
-    Button(data_enter, text='Submit', width=20, bg='brown', fg='black').place(x=575, y=480)
+
+    def add_entry():
+        print("Entered customer information")
+        print(entry_1.get())
+        print(entry_02.get())
+        print(entry_03.get())
+        print(entry_04.get())
+        print(entry_05.get())
+        print(entry_06.get())
+        sql = 'INSERT INTO Customer(`Customer_name`, `art_title_desired`, `phone_number`, `address`, `amount`,' \
+              '`email_address`) '
+        ' VALUES (%s, %s, %s, %s, %s, %s)'
+        insert = (entry_1.get(), entry_02.get(), entry_03.get(), entry_04.get(), entry_05.get(), entry_06.get())
+        cursor.execute(sql, insert)
+        data_enter.quit()
+
+    Button(data_enter, text='Submit', width=20, bg='brown', fg='black', command=add_entry).place(x=575, y=480)
 
 
 purchaseButton = tk.Button(
@@ -82,26 +105,6 @@ def open_artist():
     artist_window.title("Artist")
     artist_label = tk.Label(artist_window, text="Artist", bg="green", fg="black", font=("Times", 70, "bold"))
     artist_label.pack()
-
-    s = tk.Style()
-    s.theme_use('clam')
-
-    # Add a Treeview widget
-    tree = tk.Treeview(artist_window, column=("c1", "c2", "c3"), show='headings', height=5)
-    tree.column("# 1", anchor=CENTER)
-    tree.heading("# 1", text="ID")
-    tree.column("# 2", anchor=CENTER)
-    tree.heading("# 2", text="FName")
-    tree.column("# 3", anchor=CENTER)
-    tree.heading("# 3", text="LName")
-
-    tree.insert('', 'end', text="1", values=('1', 'Joe', 'Nash'))
-    tree.insert('', 'end', text="2", values=('2', 'Emily', 'Mackmohan'))
-    tree.insert('', 'end', text="3", values=('3', 'Estilla', 'Roffe'))
-    tree.insert('', 'end', text="4", values=('4', 'Percy', 'Andrews'))
-    tree.insert('', 'end', text="5", values=('5', 'Stephan', 'Heyward'))
-
-    tree.pack()
 
 
 artistButton = tk.Button(
