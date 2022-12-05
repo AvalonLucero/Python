@@ -3,7 +3,7 @@ from tkinter import *
 
 import mysql.connector
 
-db = mysql.connector.connect(user='root', password='flYing2024$',
+db = mysql.connector.connect(user='root', password='password',
                              host='localhost',
                              database='ArtGallery')
 my_conn = db.cursor()
