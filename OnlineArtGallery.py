@@ -3,10 +3,10 @@ from tkinter import *
 
 import mysql.connector
 
-db = mysql.connector.connect(user='root', password='password',
-                             host='localhost',
-                             database='ArtGallery')
-my_conn = db.cursor()
+mydb = mysql.connector.connect(user='root', password='password',
+                               host='localhost',
+                               database='ArtGallery')
+my_conn = mydb.cursor()
 
 window = tk.Tk()
 
@@ -21,9 +21,9 @@ main.pack()
 
 
 def primary_search():
-    val = search1.get()
-    sql_query = "SELECT * FROM Artists WHERE Artist_Name=%s"
-    my_conn.execute(sql_query, val)
+    sql_query = "SELECT * FROM Artists"
+    search1.delete(0, END)
+    print(my_conn.execute(sql_query))
 
 
 # Search Entry for Art
@@ -64,16 +64,16 @@ def enter_info():
     label_6.place(x=245, y=380)
     entry_06 = tk.Entry(data_enter)
     entry_06.place(x=575, y=380)
+
     # The submit button action
+
     def add_entry():
-        sql = 'INSERT INTO Customer(`Customer_name`, `art_title_desired`, `phone_number`, `address`, `amount`,' \
-              '`email_address`) '
-        ' VALUES (%s, %s, %s, %s, %s, %s)'
+        sql = 'INSERT INTO ArtGallery.Customer(`Customer_name`, `art_title_desired`, `phone_number`, `address`, ' \
+              '`amount`,`email_address`) '
+        " VALUES (%s, %s, %d, %s, %d, %s)"
         insert = (entry_1.get(), entry_02.get(), entry_03.get(), entry_04.get(), entry_05.get(), entry_06.get())
         my_conn.execute(sql, insert)
-        data_enter.destroy()
-        if my_conn:
-            my_conn.close()
+        search1.delete(0, END)
 
     Button(data_enter, text='Submit', width=20, bg='brown', fg='black', command=add_entry).place(x=575, y=480)
 
@@ -85,6 +85,8 @@ purchaseButton = tk.Button(
     font=("Monaco", 7),
     command=enter_info)
 purchaseButton.pack()
+
+
 # Purchase button
 
 
@@ -94,6 +96,16 @@ def open_artwork():
     artwork_window.title("Artwork")
     artwork_label = tk.Label(artwork_window, text="Artwork", bg="red", fg='black', font=("Times", 70, "bold"))
     artwork_label.pack()
+    r_set = my_conn.execute("SELECT * FROM artworks LIMIT 0,10")
+    i = 0
+    for artworks in r_set:
+        for j in range(len(artworks)):
+            e = Entry(artwork_window, width=10, fg='blue')
+            e.grid(row=i, column=j)
+            e.insert(END, artworks[j])
+        i = i + 1
+
+
 # If the artwork button is pressed
 
 
@@ -104,6 +116,8 @@ artworkButton = tk.Button(
     bg='#34e8eb', fg='black',
     font=("Monaco", 25),
     command=open_artwork)
+
+
 # Artwork Button
 
 
@@ -113,6 +127,8 @@ def open_artist():
     artist_window.title("Artist")
     artist_label = tk.Label(artist_window, text="Artist", bg="green", fg="black", font=("Times", 70, "bold"))
     artist_label.pack()
+
+
 # If the artist button is pressed
 
 
@@ -122,6 +138,8 @@ artistButton = tk.Button(
     bg="#34e8eb", fg="black",
     font=("Monaco", 25),
     command=open_artist)
+
+
 # Artist Button
 
 
@@ -131,6 +149,8 @@ def open_genre():
     genre_window.title("Genre")
     genre_label = tk.Label(genre_window, text="Genre", bg="yellow", fg="black", font=("Times", 70, "bold"))
     genre_label.pack()
+
+
 # If the genre button is pressed
 
 
@@ -140,6 +160,8 @@ genreButton = tk.Button(
     bg="#34e8eb", fg="black",
     font=("Monaco", 25),
     command=open_genre)
+
+
 # Genre Button
 
 
@@ -149,6 +171,8 @@ def open_place():
     place_window.title("Place")
     place_label = tk.Label(place_window, text="Place", bg="orange", fg='black', font=("Times", 70, "bold"))
     place_label.pack()
+
+
 # If the place button is pressed
 
 
