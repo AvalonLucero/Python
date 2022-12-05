@@ -22,15 +22,29 @@ main.pack()
 
 
 def primary_search():
-    sql_query = "SELECT * FROM Artists"
-    search1.delete(0, END)
-    print(my_conn.execute(sql_query))
+    searched_artist = Toplevel(window)
+    searched_artist.title("Searched Artist")
+    searched_artist.configure(bg="black")
+    searched_artist.geometry("200x200")
+
+
+def search_records():
+    sql_query = "SELECT * FROM artist WHERE FirstName= ?"
+    vals = search1.get()
+    print(vals)
+    my_conn.execute(sql_query, vals)
+    my_rows = my_conn.fetchall()
+    print(my_rows)
+    total_rows = my_conn.rowcount
+    print("TOTAL ROWS: ", total_rows)
+    my_conn.close()
 
 
 # Search Entry for Art
 search1 = tk.Entry(window, bd=5, width=30)
 search1.pack()
-search2 = tk.Button(window, width=10, height=2, text="Search Artist", fg='black', command=primary_search)
+search2 = tk.Button(window, width=10, height=2, text="Search Artist", fg='black',
+                    command=lambda: [primary_search(), search_records()])
 search2.pack()
 
 
@@ -68,14 +82,21 @@ def enter_info():
     # The submit button action
 
     def add_entry():
-        sql = 'INSERT INTO ArtGallery.Customer(`Customer_name`, `art_title_desired`, `phone_number`, `address`, ' \
-              '`amount`,`email_address`) '
-        " VALUES (%s, %s, %d, %s, %d, %s)"
-        insert = (entry_1.get(), entry_02.get(), entry_03.get(), entry_04.get(), entry_05.get(), entry_06.get())
-        my_conn.execute(sql, insert)
         search1.delete(0, END)
         data_enter.withdraw()
-
+        try:
+            sql = "INSERT INTO Customers(Customer_name, art_title_desired, phone_number, address, amount, " \
+                  "email_address) VALUES (%s,%s,%s,%s,%s,%s) "
+            insert = (entry_1.get(), entry_02.get(), entry_03.get(), entry_04.get(), entry_05.get(), entry_06.get())
+            my_conn.execute(sql, insert)
+            my_conn.commit()
+            print(my_conn.rowcount, "Record inserted successfully into Customer table")
+        except mysql.connector.Error as error:
+            print("Failed to insert record into Customer table {}".format(error))
+        finally:
+            if mydb.is_connected():
+                mydb.close()
+                print("MySQL connection is closed")
     Button(data_enter, text='Submit', width=20, bg='brown', fg='black', command=add_entry).place(x=575, y=480)
 
 
